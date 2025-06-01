@@ -1,0 +1,175 @@
+1.	To create database:
+       create database grocery_store;
+
+2.	To use the database:
+       Use database grocery_store;
+
+3.	To create table login:
+create table login(id int(11)not null primary key,name char(10),password char(10)null);
+
+4.	To insert values to table login:
+insert into login values(1,'nausheen','abc'),(2,'farha','pqr');
+
+5.	To view table login:
+select*from login;
+
+6.	To create table customer details:
+create table customer_details(phone_no int(13),customer_name varchar(25),cost float(10));
+
+7.	To insert values to table customer details:
+insert into customer_details
+values(10024369,'aashna',4510.50),(75098642,'sanket',9754.00),(51987645,'arsh',745.00),(84623951,'unnati',1452.71),(32195784,'ashi',4515.92);
+
+9.To view table customer details:
+select*from customer_details;
+
+11.To create table product details:
+create table product_details(product_name varchar(25),product_cost float(10));
+
+12.To insert values to table product details:
+insert into product_details values('baladna',12.00),('igloo',25.50),('galaxy',45.92),
+('colgate',78.12),('marigold',50.16),('headandshoulder  s',85.30),('parachute',78.156),('londondairy',50.24);
+
+13.To view table product details:
+select*from product_details;
+
+14.To create table worker details:
+  create table worker_details(worker_name       varchar(25),worker_work varchar(10),worker_age int(3),worker_salary float(10),phone_no int(13));
+
+15.To insert values to table worker details:
+      insert into worker_details values('esha','cleaner',25,1500.00,11122200),('manav','casher',24,2500.00,4589621),('rishab','delivery',24,5000.00,45896511);
+
+16.To view table worker details:
+      
+   Select*from worker_details;
+
+
+•	Code used in Python:
+
+1.	To import from MYSQL:
+import mysql.connector as sql
+conn=sql.connect(host='localhost',user='root',passwd  ='N@usheen1',database='grocery_store')
+if conn.is_connected():
+    print('successfully connected')
+
+c=conn.cursor()
+#c.execute('create table customer_details(phone_no int(13),customer_name varchar(25),cost float(10))')
+#print('table created')
+ 
+##c.execute('create table product_details(product_name varchar(25),product_cost float(10))')
+#print('table created')
+ 
+##c.execute('create table worker_details(worker_name varchar(25),worker_work varchar(10),worker_age int(3),worker_salary float(10),phone_no int(13))')
+#print('table created')
+
+2.	To execute in Python:
+      print('       grocery shop management system            ')
+       print('1.login')
+        print('2.exit')
+        choice=int(input('enter your choice:'))
+if choice==1:
+    user_name=input('enter your user name=')
+    password=input('enter your password=')
+    while user_name=='nausheen' and password=='abc':
+        print('connected successfully')
+        
+        print('grocery shop')
+        print('1.customer details')
+        print('2.product details')
+        print('3.worker details')
+        print('4.see all customer details')
+        print('5.see all product details')
+        print('6.see all worker details')
+        print('7.see one customer details')
+        print('8.see one product details')
+        print('9.see one worker details')
+        print('10.pie chart for avalibility of stock')
+        choice=int(input('enter the choice'))
+        if choice==1:
+            cust_name=input('enter your name=')
+            phone_no=int(input('enter your  phone number='))
+            cost=float(input('enter your cost='))
+            sql_insert="insert into customer_details values("+str(phone_no)+",'"+(cust_name)+"',"+str(cost)+")"
+            c.execute(sql_insert)
+            conn.commit()
+            print('data is updated')
+ 
+        elif choice==2:
+            product_name=input('enter  product name=')
+            product_cost=float(input('enter the cost='))
+            sql_insert="insert into product_details values(""'"+(product_name)+"',"+str(product_cost)+")"
+            c.execute(sql_insert)
+            conn.commit()
+            print('data is updated')
+ 
+        elif choice==3:
+            worker_name=input('enter your name=')
+            worker_work=input('enter your work=')
+            worker_age=int(input('enter your  age='))
+            worker_salary=float(input('enter your salary='))
+            phone_no =int(input('enter your  phone number='))
+            sql_insert="insert into worker_details values(" "'"+(worker_name)+"'," "'"+(worker_work)+"',"+str(worker_age)+","+str(worker_salary)+","+str(phone_no)+ ")"
+            c.execute(sql_insert)
+            conn.commit()
+            print('data is updated')
+ 
+        elif choice==4:
+            t=conn.cursor()
+            t.execute('select*from customer_details')
+            record=t.fetchall()
+            for i in record:
+                print(i)
+                
+        elif choice==5:
+            t=conn.cursor()
+            t.execute('select*from product_details')
+            record=t.fetchall()
+            for i in record:
+                print(i)
+ 
+        elif choice==6:
+            t=conn.cursor()
+            t.execute('select*from worker_details')
+            record=t.fetchall()
+            for i in record:
+                print(i)
+                
+        elif choice==7:
+            a=input('enter your name')
+            t='select*from customer_details where cust_name=("{}")'.format(a)
+            c.execute(t)
+            v=c.fetchall()
+            for i in v:
+                print(v)
+                 
+        elif choice==8:
+            a=input('enter your product_name')
+            t='select*from product_details where product_name=("{}")'.format(a)
+            c.execute(t)
+            v=c.fetchall()
+            for i in v:
+                print(v)
+               
+        elif choice==9:
+            a=input('enter your name')
+            t='select*from worker_details where worker_name=("{}")'.format(a)
+            c.execute(t)
+            v=c.fetchall()
+            for i in v:
+                print(v)
+   
+        elif choice==10:
+            import matplotlib.pyplot as plt
+            items=('baladna','marigold,'galaxy','colgate','headandshoulder')
+            avalibility=[156,200,103,206,196]
+            colors=['red','yellowgreen','blue','gold','lightcoral']
+            plt.pie(avalibility,labels=items,colors=colors,autopct=’%0.0f%%’)
+            plt.title('avalibility of items in shop')
+            plt.show()
+                                       
+    else:
+        print('wrong password, try again ')
+                
+if choice==2:
+    exit()
+
